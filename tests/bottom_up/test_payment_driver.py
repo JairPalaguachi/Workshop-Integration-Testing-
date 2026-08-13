@@ -87,7 +87,16 @@ def test_charge_timeout(requests_mock):
 # TODO 3: Respuesta HTTP inesperada (p. ej. 500).
 #   - status_code=500. Verifica que se lanza `PaymentGatewayError`.
 def test_charge_error_servidor_500(requests_mock):
-    pytest.skip("TODO pendiente: completa este test (Integrante responsable).")
+    gateway = make_gateway()
+
+    requests_mock.post(
+        "https://pagos.test/api/v1/charges",
+        status_code=500,
+    )
+
+    with pytest.raises(PaymentGatewayError):
+        gateway.charge("tok_visa", 232.0)
+        
 
 
 # TODO 4 (OPCIONAL — NO cuenta para la nota): verifica el CUERPO enviado. Si
