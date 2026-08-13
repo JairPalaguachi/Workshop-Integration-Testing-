@@ -51,7 +51,11 @@ def test_run_order_sin_stock(mocker):
 #   - `side_effect = PaymentRejectedError("insufficient_funds")`.
 #   - Verifica que el mensaje EMPIECE por "ERROR: pago rechazado".
 def test_run_order_pago_rechazado(mocker):
-    pytest.skip("TODO pendiente: completa este test (Integrante responsable).")
+    #pytest.skip("TODO pendiente: completa este test (Integrante responsable).")
+    service = mocker.MagicMock()
+    service.place_order.side_effect = PaymentRejectedError("insufficient_funds")
+    mensaje = run_order(service, "SKU-1", 2, "tok_visa")
+    assert mensaje.startswith("ERROR: pago rechazado")
 
 
 # TODO 3: Error inesperado (p. ej. la BD/red falla).
