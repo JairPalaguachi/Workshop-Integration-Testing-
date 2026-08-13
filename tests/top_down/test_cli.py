@@ -40,7 +40,11 @@ def test_run_order_exito(mocker):
 #     (usa `service.place_order.side_effect = OutOfStockError(...)`).
 #   - Verifica que el mensaje EMPIECE por "ERROR: sin stock".
 def test_run_order_sin_stock(mocker):
-    pytest.skip("TODO pendiente: completa este test (Integrante responsable).")
+    #pytest.skip("TODO pendiente: completa este test (Integrante responsable).")
+    service = mocker.MagicMock()
+    service.place_order.side_effect = OutOfStockError("Producto agotado")
+    mensaje = run_order(service, "SKU-1", 2, "tok_visa")
+    assert mensaje.startswith("ERROR: sin stock")
 
 
 # TODO 2: Pago rechazado.
